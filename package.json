@@ -1,0 +1,32 @@
+{
+  "name": "blogginbow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akshay-sahu-au13/Blog_website_BlogginBow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akshay-sahu-au13/Blog_website_BlogginBow/issues"
+  },
+  "homepage": "https://github.com/akshay-sahu-au13/Blog_website_BlogginBow#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.10.0",
+    "hbs": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "marked": "^2.0.0",
+    "mongoose": "^5.11.17",
+    "slugify": "^1.4.6"
+  }
+}
