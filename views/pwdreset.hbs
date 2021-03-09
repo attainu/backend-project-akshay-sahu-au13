@@ -15,23 +15,15 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/home">Home</a>
+                    <a href="/auth/user">Home</a>
                 </li>
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="/auth/user/profile">Back to Profile</a>
                 </li>
                 <li>
-                    <a href="#read-blogs">Read Blogs</a>
+                    <a href="/auth/logout">Logout</a>
                 </li>
-                <li>
-                    <a href="contact.html">Contact</a>
-                </li>
-                <li>
-                    <a href="/auth/login">Login</a>
-                </li>
-                <li>
-                    <a href="/auth/signup">Signup</a>
-                </li>
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -56,54 +48,31 @@
         <section>
 
             <hgroup>
-                <h2>BlogginBow Sign-up!</h2>
-                <p>Please enter your details to REGISTER yourself</p>
+                <h2>{{data.msg}}</h2>
+                <h2>PASSWORD RESET</h2>
+                <p>Please enter your details to Reset the Password</p>
             </hgroup>
 
-            <form action="/auth/signup" method="post" class="log-form">
+            <form action="/auth/user/profile/pwdreset" method="post" class="log-form">
 
                 <div class="group log-input">
-                    <input type="text" id="fname" name="firstName" placeholder="First Name">
+                    <input type="password" id="oldpwd" name="oldpwd" placeholder="Enter your Old Password">
                 </div>
 
                 <div class="group log-input">
-                    <input type="text" id="lname" name="lastName" placeholder="Last Name">
+                    <input type="password" id="newpwd" name="newpwd" placeholder="Enter New Passwrod">
                 </div>
 
                 <div class="group log-input">
-                    <input type="email" id="email" name="email" placeholder="Email ID">
+                    <input type="password" id="re-newpwd" name="renewpwd" placeholder="Re-enter New Password">
                 </div>
 
-                <div class="group log-input">
-                    <label for="male" name="gender">Gender</label>
-                    <div class="radio-toolbar">
-                        <input type="radio" id="male" name="gender" value="male">
-                        <label for="male">Male</label>
-
-                        <input type="radio" id="female" name="gender" value="female">
-                        <label for="female">Female</label>
-
-                        <input type="radio" id="other" name="gender" value="other">
-                        <label for="other">Other</label>
-                    </div>
-                </div>
-
-                <div class="group log-input">
-                    <input type="password" id="password" name="password" placeholder="Password">
-                </div>
-
-                <span class="check left-align">
-                    <input type="checkbox" id="checkbox" name="T&C" checked="checked" required value="Agreed">
-                    <label>Terms and conditions</label>
-                </span>
-
-                <a class="right-align" href="#">Forgot Password</a>
 
                 <br><br>
 
                 <div class="container-log-btn">
                     <button type="submit" name="btn_submit" class="log-form-btn">
-                        <span>Login</span>
+                        <span>Reset Password</span>
                     </button>
                 </div>
 
@@ -154,16 +123,3 @@
         </div>
     </div>
 </footer>
-
-<!-- jQuery -->
-<script src="/vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- Contact Form JavaScript -->
-<script src="/js/jqBootstrapValidation.js"></script>
-<script src="/js/contact_me.js"></script>
-
-<!-- Theme JavaScript -->
-<script src="/js/clean-blog.min.js"></script>

@@ -6,10 +6,13 @@ const blogRoutes = require('./routes/blogs');
 const MongoInit = require('./config/mongodb');
 const layout = path.join('layouts', "index");
 const cookie = require( 'cookie-parser' );
-const PORT = process.env.PORT || 5102;
+const PORT = process.env.PORT || 5100;
 const hbs = require('hbs');
+const User = require('./models/user');
+const Blog = require('./models/blog');
 const partialPath = path.join(__dirname,'../views/partials');
 const multer = require('multer');
+const methodOverride  = require('method-override');
 
 // Connecting to MongoDB database
 MongoInit();
@@ -21,10 +24,12 @@ app.use( cookie() );
 // body-parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+// Method override
+app.use(methodOverride('_method'));
 
 // Routers
 app.use('/auth', userRoutes);
-app.use('/auth/profile', blogRoutes);
+app.use('/', blogRoutes);
 
 // setting path for static files
 app.use(express.static(path.join(__dirname,'public')));
@@ -49,9 +54,11 @@ let upload = multer({
     storage: Storage,
 }).single('dp');
 
-app.get('/', (req, res)=> {
-    console.log(loggedUsers)
-    res.render('home', {title: " BlogginBow home", layout});
+app.get('/', async(req, res)=> {
+    const blogs = await Blog.find().populate('userId').sort({createdAt:-1});
+    console.log(blogs);
+    console.log("HOME-loggedUsers",loggedUsers);
+    res.render('home', {title: " BlogginBow home", layout, blogs});
 });
 
 

@@ -1,3 +1,21 @@
+{{!-- <div class="container-fluid">
+    <div class="wrapper">
+        <header>
+            <h1>Welcome to BlogginBow</h1>
+        </header>
+        <section class="section-home">
+            <ul>
+                <li><a href="#">Login</a></li>
+                <li><a href="#">Signup</a></li>
+                <li><a href="#">Read Blogs</a></li>
+                <li><a href="#">Meet our Authors</a></li>
+            </ul>
+        </section>
+    </div>
+    -----------------------------------------------------------------
+
+</div> --}}
+
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -18,12 +36,11 @@
                     <a href="/">Home</a>
                 </li>
                 <li>
-                    <a href="#">About</a>
+                    <a href="/auth/edit">Edit Profile</a>
                 </li>
                 <li>
-                    <a href="#">Read Blogs</a>
+                    <a href="/auth/allblogs">Your Blogs</a>
                 </li>
-
                 <li>
                     <a href="/auth/login">Login</a>
                 </li>
@@ -44,7 +61,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="site-heading">
-                    <h1>Welcome {{user.firstName}}</h1>
+                    <h1>BlogginBow</h1>
                     <hr class="small">
                     <span class="subheading">A heaven created solely for writers</span>
                 </div>
@@ -53,8 +70,33 @@
     </div>
 </header>
 
+<div class="container-fluid">
+
+    <div class="bio">
+
+        <div class="profilepic">
+            <form action="/auth/profile" method="POST" enctype="multipart/form-data">
+                <input type="file" name="dp">
+                <button type="submit" class="btn  btn-dp"><span>Upload</span></button>
+            </form>
+            <img src="/img/upload-dp-icon.png" alt="profile-pic" height="100" width="100">
+        </div>
+
+
+        <div class="about">
+            <h2>{{user.firstName}} {{user.lastName}}</h2>
+            <span>@</span>{{user.email}}
+            <p>{{userinfo.about}}</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- Main Content -->
-<div class="container" id="read-blogs">
+{{!-- <div class="container" id="read-blogs">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <div class="post-preview">
@@ -66,10 +108,29 @@
                         Problems look mighty small from 150 miles up
                     </h3>
                 </a>
-                <p class="post-meta">Posted by <a href="#">{{user.firstName}}</a> on March 1 2021</p>
+                <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 24, 2014</p>
             </div>
             <hr>
-
+            <div class="post-preview">
+                <a href="post.html">
+                    <h2 class="post-title">
+                        I believe every human has a finite number of heartbeats. I don't intend to waste any of mine.
+                    </h2>
+                </a>
+                <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on September 18, 2014</p>
+            </div>
+            <hr>
+            <div class="post-preview">
+                <a href="post.html">
+                    <h2 class="post-title">
+                        Science has not yet mastered prophecy
+                    </h2>
+                    <h3 class="post-subtitle">
+                        We predict too much for the next year and yet far too little for the next ten.
+                    </h3>
+                </a>
+                <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</p>
+            </div>
             <hr>
             <div class="post-preview">
                 <a href="post.html">
@@ -80,7 +141,7 @@
                         Many say exploration is part of our destiny, but it’s actually our duty to future generations.
                     </h3>
                 </a>
-                <p class="post-meta">Posted by <a href="#">{{user.firstName}}</a> on Feb 8, 2021</p>
+                <p class="post-meta">Posted by <a href="#">Start Bootstrap</a> on July 8, 2014</p>
             </div>
             <hr>
             <!-- Pager -->
@@ -105,7 +166,7 @@
                         <a href="#">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
-                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
                             </span>
                         </a>
                     </li>
@@ -126,8 +187,21 @@
                         </a>
                     </li>
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; Blogginbow.com 2021</p>
+                <p class="copyright text-muted">Copyright &copy; Your Website 2016</p>
             </div>
         </div>
     </div>
 </footer>
+
+<!-- jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="js/jqBootstrapValidation.js"></script>
+<script src="js/contact_me.js"></script>
+
+<!-- Theme JavaScript -->
+<script src="js/clean-blog.min.js"></script> --}}

@@ -15,19 +15,19 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/">Home</a>
+                    <a href="/auth/user">Home</a>
                 </li>
                 <li>
                     <a href="/auth/user/profile">Profile</a>
                 </li>
                 <li>
-                    <a href="/allblogs">Read Blogs</a>
+                    <a href="/auth/profile/userblogs">Read Blogs</a>
                 </li>
                 <li>
                     <a href="/auth/user/update/{{user._id}}">Update info</a>
                 </li>
                 <li>
-                    <a href="/auth/user/writeblog">Write a blog</a>
+                    <a href="/auth/profile/writeblog">Write a blog</a>
                 </li>
                 <li>
                     <a href="/auth/logout">Logout</a>
@@ -59,8 +59,31 @@
 <div class="container" id="read-blogs">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {{!-- ------------------------------------------------------------ --}}
+            <ul>
+                {{#each blogs}}
+                <li>
+                    <div class="post-preview">
+
+                        <a href="/auth/user/userblogs/{{this._id}}" target="_blank">
+                            <h2 class="post-title">
+                                {{this.title}}
+                            </h2>
+                            <h3 class="post-subtitle">
+                                {{{this.description}}}
+                            </h3>
+                        </a>
+                        <p class="post-meta">Posted by <a href="/auth/user/profile/{{user._id}}">{{user.firstName}}</a>
+                            on {{this.date}}</p>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+
+            {{!-- ---------------------------------------------------------- --}}
             <div class="post-preview">
-                <a href="post.html">
+
+                <a href="/auth/user/blog">
                     <h2 class="post-title">
                         Man must explore, and this is exploration at its greatest
                     </h2>
