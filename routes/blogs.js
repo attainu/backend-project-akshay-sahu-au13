@@ -6,7 +6,6 @@ const { auth, authRole } = require('../auth/auth');
 const User = require('../models/user');
 const layout = path.join('layouts', 'index')
 
-
 router.get('/auth/profile/userblogs', auth, async (req, res) => {
     const user = await User.findById({_id:req.user});
     try {
