@@ -31,7 +31,11 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        {{#if logged}}
+                        <a href="/auth/user">Home</a>
+                        {{else}}
                         <a href="/">Home</a>
+                        {{/if}}
                     </li>
                     <li>
                         <a href="/about-us">About</a>
@@ -60,7 +64,8 @@
 
     <!-- Set your background image for this header on the line below. -->
     <header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
-
+        <br><br><br>
+        <center><span style="color:springgreen;">{{msg}}</span></center>
         <div class="container-fluid blog-show">
 
             <div class="post">

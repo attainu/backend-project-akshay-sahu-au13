@@ -15,23 +15,19 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/">Home</a>
+                    <a href="/auth/user">Home</a>
                 </li>
                 <li>
-                    <a href="/about-us">About</a>
+                    <a href="/auth/user/profile">Back to Profile</a>
                 </li>
                 <li>
                     <a href="/#read-blogs">Read Blogs</a>
                 </li>
                 <li>
-                    <a
-                        href="mailto:akki5233@@gmail.com?cc=blogginbowsupport@example.com&subject=Query Regarding BlogginBow">Contact</a>
-                </li>
-                <li>
                     <a href="/auth/login">Login</a>
                 </li>
                 <li>
-                    <a href="/auth/signup">Signup</a>
+                    <a href="/auth/logout">Logout</a>
                 </li>
             </ul>
         </div>
@@ -43,51 +39,52 @@
 <!-- Page Header -->
 <!-- Set your background image for this header on the line below. -->
 <header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
-    <div class="container">
-        {{!-- <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="site-heading">
-                    <h2>BlogginBow Login</h2>
-                    <hr class="small">
-                    <span class="subheading">A heaven created solely for writers</span>
-                </div>
-            </div>
-        </div> --}}
-        {{!-- Login form --}}
+    <div class="container-fluid">
+
+        {{!-- Blog post form --}}
         <section>
-
+            <center><span style="color:orangered;">{{msg}}</span></center>
             <hgroup>
-                <h2 class="msg">{{data.msg}}</h2>
-
-                <h2>BlogginBow Login!</h2>
-                <p>Please enter your details to sign into your account</p>
-                <h2 class='error'>
-                    {{error}}
-                </h2>
+                <h2>Want to change some content in your blog?</h2>
+                <p>Kindly feel free to edit your blog...</p>
             </hgroup>
 
-            <form action="/auth/login" method="post" class="log-form">
+            <form action="/auth/profile/editblog/{{blog._id}}" method="POST" class="log-form blog-form">
 
-                <div class="group log-input">
-                    <input type="email" id="email" name="email" placeholder="Enter your email">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="group log-input" id="title" placeholder="Title goes here..."
+                        value="{{blog.title}}">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select name="genre" id="category" class="group log-input">
+                        <option value="select" selected="selected" disabled>Select a Category</option>
+                        <option value="Nature">Nature</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Education">Education</option>
+                        <option value="Politics">Politics</option>
+                        <option value="General">General</option>
+                    </select>
                 </div>
 
-                <div class="group log-input">
-                    <input type="password" id="password" name="password" placeholder="Password">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" class="ta-desc group log-input" cols="60"
+                        rows="10">{{blog.description}}</textarea>
                 </div>
 
-                <span class="check left-align">
-                    <input type="checkbox" name="admin" id="admin">
-                    <label for="admin">Admin login</label>
-                </span>
-
-                {{!-- <a class="right-align" href="#">Forgot Password</a> --}}
-
-                <br><br>
+                <div class="form-group">
+                    <label for="body">Content</label>
+                    <textarea name="body" id="body" class="ta-desc group log-input" cols="60"
+                        rows="50">{{blog.body}}</textarea>
+                </div>
 
                 <div class="container-log-btn">
                     <button type="submit" name="btn_submit" class="log-form-btn">
-                        <span>Login</span>
+                        <span>Done Editing?</span>
                     </button>
                 </div>
 
@@ -133,12 +130,22 @@
                         </a>
                     </li>
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; www.blogginbow.com 2021</p>
+                <p class="copyright text-muted">Copyright &copy; Your Website 2016</p>
             </div>
         </div>
     </div>
 </footer>
 
+{{!--
+<script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
+
+<!-- Initialize the editor. -->
+<script>
+    new FroalaEditor('textarea');
+</script> --}}
+
+{{!--
 <!-- jQuery -->
 <script src="/vendor/jquery/jquery.min.js"></script>
 
@@ -150,4 +157,4 @@
 <script src="/js/contact_me.js"></script>
 
 <!-- Theme JavaScript -->
-<script src="/js/clean-blog.min.js"></script>
+<script src="/js/clean-blog.min.js"></script> --}}
