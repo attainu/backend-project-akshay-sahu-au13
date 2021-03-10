@@ -71,7 +71,7 @@ router.get('/auth/user/userblogs/:id', auth, async (req, res) => {
     const blog = await Blog.findById({ _id: req.params.id });
     console.log(blog);
     const user = await User.findById({ _id: req.user });
-    res.render('blogs', { title: `${blog.title}`, layout, blog, user });
+    res.render('blogs', { title: `${blog.title}`, layout, blog, user, logged:true });
 })
 
 router.get('/readblogs/:id', async (req, res) => {
@@ -82,16 +82,44 @@ router.get('/readblogs/:id', async (req, res) => {
 
 router.get('/auth/profile/editblog/:id', auth, async (req, res) => {
     try {
-        const blog = await Blog.findbyId({_id:req.params.id});
-        res.render('writeblog', { title: "Edit blog", layout, blog })
+        const blog = await Blog.findById({_id:req.params.id});
+        res.render('editblog', { title: "Edit blog", layout, blog })
     } catch (error) {
         if (error) console.log(error.message);
         throw error;
     }
 })
 
-router.post('/auth/profile/editblog/:id', auth, (req, res) => {
+router.post('/auth/profile/editblog/:id', auth, async(req, res) => {
+    try {
+       const eblog =  await Blog.findByIdAndUpdate({_id:req.params.id}, {
+            "$set": {
+                title:req.body.title,
+                description: req.body.description,
+                body:req.body.body,
+                genre:req.body.genre
+            }
+        });
+        await eblog.save();
+    const blog = await Blog.findById({_id:req.params.id})
+    await blog.save()
+        res.render('blogs', {layout, title:"Edited Successfully", blog:blog, msg:"Blog Edited successfully"})
+    } catch (error) {
+        if (error) console.log(error.message);
+        res.render('editblog', {title:"Error while saving", layout, msg:"Error while saving, please try again..."})
+    }
+});
 
+router.post('/auth/profile/deleteblog/:id', auth, async(req, res) => {
+    try {
+        await Blog.findByIdAndDelete({_id:req.params.id});
+        let blogs = await Blog.find({ userId: req.user }).populate(req.user).sort({ _id: -1 });
+        // res.status(204).send();
+        res.render('userblogs', {title:"Deleted", layout, blogs});
+    } catch (error) {
+        if (error) console.log(error.message);
+        res.render('userblogs', {title:"Error while deleting", layout, msg:"Error while deleting, please try again..."})
+    }
 });
 
 router.post('/addcomment/:id', async (req, res) => {
