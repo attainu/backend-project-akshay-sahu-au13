@@ -48,10 +48,19 @@
                             href="mailto:akki5233@@gmail.com?cc=blogginbowsupport@example.com&subject=Query Regarding BlogginBow">Contact</a>
                     </li>
                     <li>
+                        {{#if logged}}
+                        <a href="/auth/user/profile">Profile</a>
+                        {{else}}
                         <a href="/auth/login">Login</a>
+                        {{/if}}
                     </li>
                     <li>
+                        {{#if logged}}
+                        <a href="/auth/logout">Logout</a>
+                        {{else}}
                         <a href="/auth/signup">Signup</a>
+                        {{/if}}
+
                     </li>
                 </ul>
             </div>
@@ -69,9 +78,10 @@
         <div class="container-fluid blog-show">
 
             <div class="post">
-                <p class="blogpost-genre">Category: <a href="/auth/user/profile/{{user._id}}"></a>"{{blog.genre}}"</a>
+                <p class="blogpost-genre">Category: "{{blog.genre}}"
                 </p>
-                <p class="blogpost-meta">Posted by <a href="/auth/user/profile/{{user._id}}"></a>{{user.firstName}}</a>
+                <p class="blogpost-meta">Posted by <a href="/auth/author/profile/{{blog.userId._id}}"
+                        style="color: orange;">{{blog.userId.firstName}}</a>
                     on {{blog.date}}</p>
                 <h2 class="blogpost-title">
                     {{blog.title}}
@@ -84,25 +94,21 @@
 
             </div>
         </div>
-        {{!-- <div class="container-fluid">
-            <div class="comments">
-                <form action="" method="POST">
-                    <input type="text" name="name" placeholder="Enter your name">
-                    <textarea name="comment" id="comment" cols="30" rows="10"
-                        placeholder="Your comment goes here"></textarea>
-                </form>
-            </div>
-        </div> --}}
+
 
     </header>
     <hr>
-
+    {{!-- COMMENT SECTION - MODAL --}}
     <ul class="comments">
+
         {{#each blog.comments}}
+
         <li>
             <div class="container-fluid">
                 <div class="comment-section">
+
                     <h4 class="commenter">Commented by: {{this.name}}</h4>
+
                     <p class="comment-body">{{this.comment}}</p>
 
                 </div>
@@ -133,6 +139,42 @@
         </div>
     </div>
 </div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="https://www.linkedin.com/in/akshay-sahu-/" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.facebook.com/akshaysahu5" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/akshay-sahu-au13" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; www.blogginbow.com 2021</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 
 <script>

@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const { userInfo } = require('os');
 const { request } = require('http');
 const loggedUsers = {};
+const logs = [];
 const layout = path.join('layouts', 'index');
 const multer = require('multer');
 const blog = require('../models/blog');
@@ -185,6 +186,7 @@ router.post('/login',
             // console.log(`Session: ${req.session} :::: Req.session: ${req.session.token}`)
 
             loggedUsers[user._id] = true;
+            logs.push({id:user._id, name:user.firstName, email:req.body.email})
             console.log("Logged users (LOGIN_POST): ", loggedUsers);
 
             res.redirect('/auth/user');
@@ -208,7 +210,19 @@ try {
     // console.log(allBlogs[1]);
     const user = await Profile.findOne({userId:decoded}).populate('userId');
     console.log("Admins's Info: ", user)
-    res.render('admin', { title: "Admin", layout, user, allUsers, allBlogs });
+    // const loggedusers = Object.entries(loggedUsers);
+    // console.log(loggedusers);
+    const lUsers = allUsers.map(item => {
+        if (item._id in loggedUsers && loggedUsers[item._id]==true) {
+            return {name:item.firstName, email:item.email}
+        }
+    }).filter(item => {
+        if (item) {
+            return item
+        }
+    });
+    console.log(lUsers);
+    res.render('admin', { title: "Admin", layout, user, allUsers, allBlogs, id:req.params.id , lUsers});
 
 } catch (error) {
     if (error){
@@ -221,7 +235,7 @@ try {
 // -----------------User PROFILE/USER Page - GET------------------- //
 router.get('/user', auth, async (req, res) => {
     try {
-        const blogs = await blog.find({userId:req.user});
+        const blogs = await blog.find({userId:req.user}).sort({_id:-1});
         const user = await User.findById({ _id: req.user });
         res.render('user', { title: `${user.firstName}'s profile`, layout, user, blogs });
 
@@ -239,6 +253,21 @@ router.get('/user/profile', auth, async (req, res) => {
         const info = await Profile.findOne({ userId: req.user });
         const user = await User.findById({ _id: req.user });
         res.render('profile1', { title: `${user.firstName}'s profile`, layout, info, user });
+
+    } catch (error) {
+        console.log(error.message);
+        res.render('login', { title: 'Login', layout, error: "Error while Login..." });
+    };
+});
+
+// ---------------- User PROFILE for Reader Access --------------- //
+router.get('/author/profile/:id', async (req, res) => {
+    // console.log("Cookies froM PROFILE-GET: ",req.cookies)
+    // console.log("loggedUsers from PROFILE-GET: ", loggedUsers)
+    try {
+        const info = await Profile.findOne({ userId: req.params.id });
+        const user = await User.findById({ _id: req.params.id });
+        res.render('profile', { title: `${user.firstName}'s profile`, layout, info, user });
 
     } catch (error) {
         console.log(error.message);
@@ -347,8 +376,8 @@ router.post('/user/profile/pwdreset',auth, async(req, res)=> {
                     '$set': {
                         password: bcrypt.hashSync(req.body.newpwd, 10)
                     }
-                })
-                res.render('login', {layout, title: `${user.firstName} Re-login`, data: {msg:`Password changed successfully, please re-login with the NEW PASSWORD...`}})
+                });
+                res.render('login', {layout, title: `${user.firstName} Re-login`, data: {msg:`Password changed successfully, please re-login with the NEW PASSWORD...`}});
 
             } else{
                 console.log('New passwords did not match!')
@@ -387,6 +416,8 @@ router.post('/admin/status-change/:id', async(req, res)=> {
         throw error;
     }
 });
+
+// router.get()
 
 userRoutes = router;
 

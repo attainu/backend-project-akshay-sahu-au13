@@ -30,7 +30,7 @@
         type="text/css" /> --}}
 
     <link rel="stylesheet" href="/css/style.css">
-
+    {{!--
     <script type="text/javascript">
         var showError = function () {
             var err = document.getElementsByClassName("error")[0];
@@ -44,7 +44,7 @@
                 msg.className = "msg msg1";
             }
         };
-    </script>
+    </script> --}}
 
 
 
@@ -57,13 +57,13 @@
 
 </head>
 
-<body onload="showError();">
+<body>
     {{!-- {{>header}} --}}
     {{{body}}}
     {{!-- {{>footer}} --}}
 
     <!-- Footer -->
-    <footer>
+    {{!-- <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> --}}
 
     {{!-- Jquery and Js files --}}
 
