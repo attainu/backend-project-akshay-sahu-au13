@@ -8,6 +8,7 @@ const layout = path.join('layouts', 'index');
 const layout2 = path.join('layouts', 'index2');
 
 
+// --------------- ALL BLOGS of a particular user- GET--------------- //
 router.get('/auth/profile/userblogs', auth, async (req, res) => {
     const user = await User.findById({ _id: req.user });
     try {
@@ -25,18 +26,19 @@ router.get('/auth/profile/userblogs', auth, async (req, res) => {
             blogs, user
         });
     } catch (error) {
-        console.log(error)
-        throw error;
-    }
+        console.log(error);
+        res.redirect('/auth/user/#read-blogs');
+    };
 
 });
 
 
 // ---------------User WRITE BLOG page - GET----------------- //
 router.get('/auth/profile/writeblog', auth, (req, res) => {
-    res.render('writeblog', { layout, title: "Write blog here" })
+    res.render('writeblog', { layout, title: "Write blog here" });
 })
 
+// ---------------User WRITE BLOG page - POST----------------- //
 router.post('/auth/profile/writeblog', auth, async (req, res) => {
 
     try {
@@ -50,7 +52,7 @@ router.post('/auth/profile/writeblog', auth, async (req, res) => {
         });
 
         await blog.save();
-        console.log(blog)
+        console.log(blog);
         const data = {
             title: `Blog saved`,
             layout,
@@ -70,18 +72,20 @@ router.post('/auth/profile/writeblog', auth, async (req, res) => {
                 error: "Error while saving..."
             };
             res.render('writeblog', data);
-        }
-    }
+        };
+    };
 
 });
 
+// -------------- USERBLOG by ID - GET (for Logged users) ----------------- //
 router.get('/auth/user/userblogs/:id', auth, async (req, res) => {
     const blog = await Blog.findById({ _id: req.params.id }).populate('userId');
     console.log(blog);
     // const user = await User.findById({ _id: req.user });
     res.render('blogs', { title: `${blog.title}`, layout:layout2, blog, logged:true });
-})
+});
 
+// -------------------- USERBLOG by ID GET (for readers) ------------//
 router.get('/readblogs/:id', async (req, res) => {
     const blog = await Blog.findById({ _id: req.params.id }).populate('userId');
     console.log(blog);
@@ -91,20 +95,22 @@ router.get('/readblogs/:id', async (req, res) => {
 
     }
     blog.date = blog.date.toDateString();
-    console.log(blog.date)
-    res.render('blogs', { layout:layout2, title: `${blog.title}`, blog, logged })
+    console.log(blog.date);
+    res.render('blogs', { layout:layout2, title: `${blog.title}`, blog, logged });
 })
 
+//  ------------------- EDIT BLOG - GET -------------------- //
 router.get('/auth/profile/editblog/:id', auth, async (req, res) => {
     try {
         const blog = await Blog.findById({_id:req.params.id});
-        res.render('editblog', { title: "Edit blog", layout, blog })
+        res.render('editblog', { title: "Edit blog", layout, blog });
     } catch (error) {
         if (error) console.log(error.message);
         throw error;
-    }
-})
+    };
+});
 
+//  ------------------- EDIT BLOG - POST -------------------- //
 router.post('/auth/profile/editblog/:id', auth, async(req, res) => {
     try {
        const eblog =  await Blog.findByIdAndUpdate({_id:req.params.id}, {
@@ -116,15 +122,16 @@ router.post('/auth/profile/editblog/:id', auth, async(req, res) => {
             }
         });
         await eblog.save();
-    const blog = await Blog.findById({_id:req.params.id})
-    await blog.save()
-        res.render('blogs', {layout, title:"Edited Successfully", blog:blog, msg:"Blog Edited successfully"})
+    const blog = await Blog.findById({_id:req.params.id});
+    await blog.save();
+        res.render('blogs', {layout, title:"Edited Successfully", blog:blog, msg:"Blog Edited successfully"});
     } catch (error) {
         if (error) console.log(error.message);
-        res.render('editblog', {title:"Error while saving", layout, msg:"Error while saving, please try again..."})
-    }
+        res.render('editblog', {title:"Error while saving", layout, msg:"Error while saving, please try again..."});
+    };
 });
 
+// --------------------- DELETE BLOG - POST ------------------------//
 router.post('/auth/profile/deleteblog/:id', auth, async(req, res) => {
     try {
         await Blog.findByIdAndDelete({_id:req.params.id});
@@ -132,10 +139,11 @@ router.post('/auth/profile/deleteblog/:id', auth, async(req, res) => {
         res.redirect('/auth/profile/userblogs');
     } catch (error) {
         if (error) console.log(error.message);
-        res.render('userblogs', {title:"Error while deleting", layout, msg:"Error while deleting, please try again..."})
-    }
+        res.render('userblogs', {title:"Error while deleting", layout, msg:"Error while deleting, please try again..."});
+    };
 });
 
+// --------------------- ADD COMMENT - POST ------------------------//
 router.post('/addcomment/:id', async (req, res) => {
     const blog = await Blog.findById({ _id: req.params.id });
     try {

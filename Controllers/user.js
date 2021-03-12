@@ -89,7 +89,7 @@ router.post('/signup',
         } catch (error) {
             console.log(error.message);
             res.status(500).render('signup', { title: "Signup", layout, err: "Error while Registering the account" });
-        }
+        };
     });
 
 // -----------------User/Admin LOGIN Page - GET------------------- //
@@ -106,18 +106,18 @@ try {
 
         } else {
             res.render('login', { msg: "Logged out", title: "Login", layout });
-        }
+        };
 
     } else {
-        console.log('LOGIN_GET: No cookies', req.cookies)
+        console.log('LOGIN_GET: No cookies', req.cookies);
         res.render('login', { title: "Login", layout });
-    }
+    };
 } catch (error) {
     if (error) {
         console.log(error.message);
-        throw error
-    }
-}
+        res.redirect('/auth/login');
+    };
+};
 
 });
 
@@ -142,7 +142,7 @@ router.post('/login',
                 error: errors.array()[0].msg,
                 message: 'Unable to create user!'
             });
-        }
+        };
 
         try {
 
@@ -167,7 +167,7 @@ router.post('/login',
             res.cookie('token', token, { maxAge: 600000 });
 
             loggedUsers[user._id] = true;
-            logs.push({id:user._id, name:user.firstName, email:req.body.email})
+            logs.push({id:user._id, name:user.firstName, email:req.body.email});
             console.log("Logged users (LOGIN_POST): ", loggedUsers);
 
             res.redirect('/auth/user');
@@ -190,17 +190,17 @@ try {
     const allBlogs = await Blog.find().populate('userId');
     // console.log(allBlogs[1]);
     const user = await Profile.findOne({userId:decoded}).populate('userId');
-    console.log("Admins's Info: ", user)
+    console.log("Admins's Info: ", user);
     // const loggedusers = Object.entries(loggedUsers);
     // console.log(loggedusers);
     const lUsers = allUsers.map(item => {
         if (item._id in loggedUsers && loggedUsers[item._id]==true) {
-            return {name:item.firstName, email:item.email}
+            return {name:item.firstName, email:item.email};
         }
     }).filter(item => {
         if (item) {
-            return item
-        }
+            return item;
+        };
     });
     console.log(lUsers);
     res.render('admin', { title: "Admin", layout, user, allUsers, allBlogs, id:req.params.id , lUsers});
@@ -209,8 +209,8 @@ try {
     if (error){
         console.log(error.message);
         return res.status(401).send(`<center><h1 style = "color: Red;">You are NOT AUTHORISED to view this page!</h1></center>`);
-    }
-}
+    };
+};
 });
 
 // -----------------User PROFILE/USER Page - GET------------------- //
@@ -228,8 +228,8 @@ router.get('/user', auth, async (req, res) => {
 
 // -----------------User PROFILE Page - GET------------------- //
 router.get('/user/profile', auth, async (req, res) => {
-    console.log("Cookies froM PROFILE-GET: ",req.cookies)
-    console.log("loggedUsers from PROFILE-GET: ", loggedUsers)
+    console.log("Cookies froM PROFILE-GET: ",req.cookies);
+    console.log("loggedUsers from PROFILE-GET: ", loggedUsers);
     try {
         const info = await Profile.findOne({ userId: req.user });
         const user = await User.findById({ _id: req.user });
@@ -245,8 +245,7 @@ router.get('/user/profile', auth, async (req, res) => {
 
 // ---------------- User PROFILE for Reader Access --------------- //
 router.get('/author/profile/:id', async (req, res) => {
-    // console.log("Cookies froM PROFILE-GET: ",req.cookies)
-    // console.log("loggedUsers from PROFILE-GET: ", loggedUsers)
+
     try {
         const info = await Profile.findOne({ userId: req.params.id });
         const socialmedia = await socialMedia.findOne({userId:req.params.id});
@@ -272,7 +271,7 @@ router.get('/user/update/:id', auth, async (req, res) => {
 router.post('/user/update/:id', auth, upload, async (req, res) => {
     const user = await User.findById({ _id: req.params.id });
     let info = await Profile.findOne({ userId: req.params.id });
-    console.log(user)
+    console.log(user);
  try {
     if (!info) {
         info = new Profile({
@@ -291,7 +290,7 @@ router.post('/user/update/:id', auth, upload, async (req, res) => {
 
 
         });
-        await info.save()
+        await info.save();
     } else {
 
         info = await Profile.findOneAndUpdate({ userId: user._id }, {
@@ -312,15 +311,15 @@ router.post('/user/update/:id', auth, upload, async (req, res) => {
 
             }
         });
-    }
+    };
 
     res.redirect('/auth/user/profile');
  } catch (error) {
      if (error) {
         console.log(error.message)
         throw error
-     }
- }
+     };
+ };
 
 });
 
@@ -333,7 +332,7 @@ router.get('/logout',auth, async (req, res) => {
     await res.clearCookie('token');
 
     res.redirect('/auth/login');
-    console.log("Cookies after LOGOUT: ",req.cookies)
+    console.log("Cookies after LOGOUT: ",req.cookies);
     console.log("LoggedUser after Logout: ",loggedUsers); // to check if the id is set to false or not
 
 });
@@ -351,10 +350,10 @@ router.post('/user/profile/pwdreset',auth, async(req, res)=> {
         const user = await User.findById({_id: req.user});
         const isMatch = await bcrypt.compare(req.body.oldpwd, user.password);
         if (!isMatch){
-            return res.render('pwdreset', {title:"Invalid password", layout, data:{msg:"Invalid password! Please enter the correct password..."}})
+            return res.render('pwdreset', {title:"Invalid password", layout, data:{msg:"Invalid password! Please enter the correct password..."}});
         } else {
-            console.log(req.body.oldpwd, "is a match!")
-            console.log(req.body)
+            console.log(req.body.oldpwd, "is a match!");
+            console.log(req.body);
             if (req.body.newpwd === req.body.renewpwd){
                 await User.findOneAndUpdate({_id:req.user},{
                     '$set': {
@@ -364,18 +363,19 @@ router.post('/user/profile/pwdreset',auth, async(req, res)=> {
                 res.render('login', {layout, title: `${user.firstName} Re-login`, data: {msg:`Password changed successfully, please re-login with the NEW PASSWORD...`}});
 
             } else{
-                console.log('New passwords did not match!')
+                console.log('New passwords did not match!');
                 return res.render('pwdreset', {title:"Reset password", layout, data: {msg:"Re-enter the password, didn't match!"}});
-            }
-        }
+            };
+        };
         
     } catch (error) {
         if(error) {
             console.log(`ERROR: `,error.message);
-            throw error;
-        } // add render route
+            res.redirect('/user/profile/pwdreset');
+            // throw error;
+        } ;// add render route
         
-    }
+    };
 })
 
 //------------------------- ACTIVATE / DEACTIVATE USER -------------------------- //
@@ -390,15 +390,15 @@ router.post('/admin/status-change/:id', async(req, res)=> {
         } else {
             await User.findByIdAndUpdate({_id:req.params.id}, {
                 "$set": {isActive: true}});
-        }
-         user = await User.findById({_id:req.params.id});
-        console.log(user)
+        };
+        user = await User.findById({_id:req.params.id});
+        console.log(user);
         console.log("Token from status-change",req.cookies);
         res.redirect(`/auth/admin/`+req.cookies['token']);
     } catch (error) {
         console.log("Error from Status-change:",error.message);
         throw error;
-    }
+    };
 });
 
 router.post('/profile/social-media',auth, async(req, res)=> {
@@ -417,8 +417,8 @@ router.post('/profile/social-media',auth, async(req, res)=> {
 
     } catch (error) {
         console.log("Error from update user: ",error.message);
-        res.redirect('/auth/user/profile')
-    }
+        res.redirect('/auth/user/profile');
+    };
 });
 
 
