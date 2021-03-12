@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { userRoutes, loggedUsers } = require('./routes/user');
-const blogRoutes = require('./routes/blogs');
+const { userRoutes, loggedUsers } = require('./Controllers/user');
+const blogRoutes = require('./Controllers/blogs');
 const MongoInit = require('./config/mongodb');
 const layout = path.join('layouts', "index");
 const cookie = require('cookie-parser');
